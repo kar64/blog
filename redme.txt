@@ -1,0 +1,19 @@
+Git Bash
+ssh root@95.163.230.28
+oS05KcwyD5z20l3G
+apt-get update
+
+apt-get install docker.io
+docker version
+
+FileZilla копировать в gg приложение
+cd gg
+
+docker build -t name .
+После этой команды у вас будет образ вашего приложения.
+docker images покажет все образы
+docker ps покажет запущенные образы
+docker run -p 80:80 -d name запустит ваш образ на 95.163.230.28
+docker ps покажет запущенные образы
+
+postman http://89.111.170.199:3000/api/register
