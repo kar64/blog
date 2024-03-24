@@ -1,29 +1,22 @@
-# # Используем образ дистрибутив линукс Alpine с версией Node -14 Node.js
-# FROM node:19.5.0-alpine
+# Используем образ дистрибутив линукс Alpine с версией Node -14 Node.js
+FROM node:19.5.0-alpine
 
 # # Указываем нашу рабочую дерикторию
-# WORKDIR /app
-
-# # Копируем package.json и package-lock.json внутрь контейнера
-# COPY package*.json ./
-
-# # Устанавливаем зависимости
-# RUN npm install
+WORKDIR /app
 
 # # Копируем оставшееся приложение в контейнер
-# COPY . .
+COPY . /app
 
-# # Устанавливаем Prisma
-# RUN npm install -g prisma
 
-# # Генерируем Prisma client
-# RUN prisma generate
+# # Устанавливаем зависимости
 
-# # Копируем Prisma schema и URL базы данных в контейнер
-# COPY prisma/schema.prisma ./prisma/
+RUN npm install
+
+
+
 
 # # Открываем порт 3000 в нашем контейнере
-# EXPOSE 3000
+EXPOSE 3000
 
 # # Запускаем сервер
-# CMD [ "npm", "start" ]
+CMD [ "npm", "start" ]
