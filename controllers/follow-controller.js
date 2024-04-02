@@ -6,25 +6,27 @@ const FollowController = {
     const userId = req.user.userId;
 
     if (followingId === userId) {
-      return res.status(500).json({ message: 'Вы не можете подписаться на самого себя' });
+      return res
+        .status(500)
+        .json({ message: "Вы не можете подписаться на самого себя" });
     }
 
     try {
       const existingSubscription = await prisma.follows.findFirst({
         where: {
-           AND: [
-             {
-               followerId: userId
-             },
-             {
-               followingId
-             }
-           ]
-        }
-       })
+          AND: [
+            {
+              followerId: userId,
+            },
+            {
+              followingId,
+            },
+          ],
+        },
+      });
 
       if (existingSubscription) {
-        return res.status(400).json({ message: 'Подписка уже существует' });
+        return res.status(400).json({ message: "Подписка уже существует" });
       }
 
       await prisma.follows.create({
@@ -34,20 +36,20 @@ const FollowController = {
         },
       });
 
-      res.status(201).json({ message: 'Подписка успешно создана' });
+      res.status(201).json({ message: "Подписка успешно создана" });
     } catch (error) {
-      console.log('error', error)
-      res.status(500).json({ error: 'Ошибка сервера' });
+      console.log("error", error);
+      res.status(500).json({ error: "Ошибка сервера" });
     }
   },
   unfollowUser: async (req, res) => {
-    const { followingId } = req.body;
+    const { followingId } = req.params;
     const userId = req.user.userId;
 
     try {
       const follows = await prisma.follows.findFirst({
         where: {
-          AND: [{ followerId: userId }, { followingId: followingId }]
+          AND: [{ followerId: userId }, { followingId: followingId }],
         },
       });
 
@@ -59,12 +61,12 @@ const FollowController = {
         where: { id: follows.id },
       });
 
-      res.status(200).json({ message: 'Отписка успешно выполнена' });
+      res.status(200).json({ message: "Отписка успешно выполнена" });
     } catch (error) {
-      console.log('error', error)
-      res.status(500).json({ error: 'Ошибка сервера' });
+      console.log("error", error);
+      res.status(500).json({ error: "Ошибка сервера" });
     }
-  }
+  },
 };
 
 module.exports = FollowController;
